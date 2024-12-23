@@ -22,34 +22,38 @@ st.title("CO2 Emission Prediction App")
 # Instructions for the user
 st.write("""
 This app predicts the **Total CO2 Emission** based on the Area and Year input.
-Please select an area from the map or enter it manually and provide the year to get the prediction.
+You can interact with the map below to select a region or manually enter an area name.
 """)
 
 # Model Selection (get model names from the dictionary keys)
 model_choice = st.selectbox("Select Model:", list(models.keys()))
 
-# Map for area selection
-st.subheader("Select an Area from the Map")
-m = folium.Map(location=[0, 0], zoom_start=2)
-
-# Add a clickable map
-clicked_location = st_folium(m, width=700, height=450)
-
-# Reverse geocoding to get area name
-if clicked_location and "last_clicked" in clicked_location:
-    lat, lon = clicked_location["last_clicked"]["lat"], clicked_location["last_clicked"]["lng"]
-    location = geolocator.reverse((lat, lon))
-    selected_area = location.raw.get("address", {}).get("country", "Unknown")
-    st.write(f"Selected Area: {selected_area}")
-else:
-    selected_area = ""
-
 # Fallback manual input for area
-area = st.text_input("Or Enter the Area (e.g., Country or Region):", value=selected_area)
+area = st.text_input("Enter the Area (e.g., Country or Region):", value=selected_area or "")
+# Interactive map for area selection
+st.subheader("Or Select a Region on the Map")
+m = folium.Map(location=[20, 0], zoom_start=2)  # Centered globally
 
 # Input for Year
 year = st.number_input("Enter the Year (e.g., 2023):", min_value=1900, max_value=2100, step=1)
 
+# Add click functionality to the map
+clicked_location = st_folium(m, width=700, height=450)
+
+# Reverse geocoding to get area name from clicked location
+selected_area = None
+if clicked_location and "last_clicked" in clicked_location:
+    lat, lon = clicked_location["last_clicked"]["lat"], clicked_location["last_clicked"]["lng"]
+    location = geolocator.reverse((lat, lon), language="en")
+    if location:
+        selected_area = location.raw.get("address", {}).get("country", "Unknown")
+        st.success(f"You selected: {selected_area}")
+    else:
+        st.warning("Unable to fetch the area name. Try another location.")
+else:
+    st.info("Click on the map to select a region.")
+
+# Prediction Button
 if st.button("Predict"):
     if area and year:
         try:
