@@ -1,61 +1,20 @@
 import streamlit as st
 import pandas as pd
 import joblib
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
-import plotly.express as px  # For choropleth map
-import pycountry  # For ISO alpha codes
+from sklearn.preprocessing import OneHotEncoder
+from geopy.geocoders import Nominatim
+import folium
+from streamlit_folium import st_folium
 
 # Load Models and Preprocessor
 models = {
     "SGD": joblib.load('sgd_best_model.pkl'),
     "LightGBM": joblib.load('lgb_best_model.pkl'),
-    "Lasso": joblib.load('best_lasso_model.pkl'),
-    "Elastic Net": joblib.load('best_elasticnet_model.pkl'),
 }
 preprocessor = joblib.load('preprocessor.pkl')
-scaler = joblib.load('scaler.pkl')  # Load the scaler
 
-# --- Create Choropleth Map for Area Selection ---
-def get_iso_alpha(country_name):
-    try:
-        country = pycountry.countries.get(name=country_name)
-        return country.alpha_3
-    except:
-        return None
-
-# Assuming 'temp2' is your DataFrame with 'Area', 'total_emission', 'total_fire_emissions'
-CO2_df = temp2[['Area', 'total_emission', 'total_fire_emissions']]
-mean_CO2_df = CO2_df.groupby('Area').mean()
-
-# Normalize emissions (you can adjust scaling method if needed)
-from sklearn.preprocessing import MinMaxScaler
-scaler = MinMaxScaler()
-mean_CO2 = scaler.fit_transform(mean_CO2_df)
-normalized_emission = pd.DataFrame(mean_CO2, columns=['mean_CO2_emission', 'mean_fire_emissions'], index=mean_CO2_df.index)
-normalized_emission['Area'] = normalized_emission.index
-normalized_emission['iso_alpha'] = normalized_emission['Area'].apply(get_iso_alpha)
-normalized_emission['mean_fire_emissions'] = normalized_emission['mean_fire_emissions'].fillna(0)
-
-# Create the choropleth map using Plotly Express
-fig = px.choropleth(
-    normalized_emission,
-    locations="iso_alpha",
-    color="mean_CO2_emission", 
-    hover_name="Area",
-    color_continuous_scale=["blue", "green", "yellow", "orange", "red"]
-)
-
-# (Optional: Add scatter_geo for fire emissions)
-# ... (Add scatter_geo data to the choropleth map) ...
-
-# Update layout
-fig.update_layout(
-    title={'text': "Mean Agrifood CO2 emissions and mean fire emissions by country", 'x': 0.5, 'xanchor': 'center'},
-    autosize=False,
-    height=600,
-    width=1200
-)
-
+# Initialize geolocator
+geolocator = Nominatim(user_agent="geoapi")
 
 # Title of the app
 st.title("CO2 Emission Prediction App")
@@ -63,27 +22,32 @@ st.title("CO2 Emission Prediction App")
 # Instructions for the user
 st.write("""
 This app predicts the **Total CO2 Emission** based on the Area and Year input.
-Please enter the values below to get the prediction.
+Please select an area from the map or enter it manually and provide the year to get the prediction.
 """)
 
 # Model Selection (get model names from the dictionary keys)
-model_choice = st.selectbox("Select Model:", ["All Models"] + list(models.keys()))
+model_choice = st.selectbox("Select Model:", list(models.keys()))
 
-# Input Method Selection
-input_method = st.radio("Select Input Method:", ["Type Area Name", "Select from Map"])
+# Map for area selection
+st.subheader("Select an Area from the Map")
+m = folium.Map(location=[0, 0], zoom_start=2)
 
-if input_method == "Type Area Name":
-    area = st.text_input("Enter the Area (e.g., Country or Region):")
-else:  # input_method == "Select from Map"
-    # Display the choropleth map
-    st.plotly_chart(fig) 
+# Add a clickable map
+clicked_location = st_folium(m, width=700, height=450)
 
-    # Get selected area (using st.session_state if needed for interactivity)
-    if st.session_state.get("selected_area"):
-        area = st.session_state.selected_area["Area"]  # Or access the area name from fig
-    else:
-        area = None
+# Reverse geocoding to get area name
+if clicked_location and "last_clicked" in clicked_location:
+    lat, lon = clicked_location["last_clicked"]["lat"], clicked_location["last_clicked"]["lng"]
+    location = geolocator.reverse((lat, lon))
+    selected_area = location.raw.get("address", {}).get("country", "Unknown")
+    st.write(f"Selected Area: {selected_area}")
+else:
+    selected_area = ""
 
+# Fallback manual input for area
+area = st.text_input("Or Enter the Area (e.g., Country or Region):", value=selected_area)
+
+# Input for Year
 year = st.number_input("Enter the Year (e.g., 2023):", min_value=1900, max_value=2100, step=1)
 
 if st.button("Predict"):
@@ -105,26 +69,16 @@ if st.button("Predict"):
             new_data_encoded = new_data_encoded[feature_names]  # Reorder columns to match training data
 
             # Scale features:
-            new_data_scaled = scaler.transform(new_data_encoded)
+            new_data_scaled = preprocessor.transform(new_data_encoded)  # Use the preprocessor/scaler used during training
 
-            if model_choice == "All Models":
-                # Display predictions for all models
-                st.subheader("Predictions from All Models:")
-                results = {}
-                for model_name, model in models.items():
-                    prediction = model.predict(new_data_scaled)[0]
-                    results[model_name] = prediction
-                    st.write(f"{model_name}: {prediction:.2f}")
+            # Get selected model
+            model = models[model_choice]
 
-                # Optionally, display as a DataFrame
-                st.write("Prediction Summary:")
-                results_df = pd.DataFrame.from_dict(results, orient='index', columns=['Prediction'])
-                st.dataframe(results_df)
-            else:
-                # Get the selected model and make a prediction
-                model = models[model_choice]
-                prediction = model.predict(new_data_scaled)[0]
-                st.success(f"Predicted Total CO2 Emission for {area} in {year} using {model_choice}: {prediction:.2f}")
+            # Make predictions
+            prediction = model.predict(new_data_scaled)[0]
+
+            # Display result
+            st.success(f"Predicted Total CO2 Emission for {area} in {year}: {prediction:.2f}")
         except Exception as e:
             st.error(f"Error during prediction: {e}")
     else:
