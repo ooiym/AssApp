@@ -7,3 +7,6 @@ scikit-learn
 lightgbm
 plotly
 pycountry
+geopy
+folium
+streamlit_folium
