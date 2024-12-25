@@ -11,7 +11,7 @@ models = {
     "Elastic Net": joblib.load('best_elasticnet_model.pkl'),
 }
 preprocessor = joblib.load('preprocessor.pkl')
-scaler = joblib.load('scaler.pkl')  # Load the scaler
+scaler = joblib.load('scaler.pkl')
 # Load areas from text file
 try:
     with open('areas.txt', 'r') as file:
