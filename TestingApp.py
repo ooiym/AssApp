@@ -90,7 +90,7 @@ if st.button("Predict"):
                 'food_packaging': [0], 
                 'net_forest_conversion': [0], 
                 'manure_left_on_pasture': [0], 
-                'total_population_-male': [total_population_male]
+                'total_population_-male': [total_population_male],
                 'total_population_-_female': [total_population_female] 
             })
 
