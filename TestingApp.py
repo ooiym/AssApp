@@ -66,7 +66,7 @@ if st.button("Predict"):
                 'forest_fires': [forest_fires],
                 'crop_residues': [crop_residues],
                 'rice_cultivation': [rice_cultivation],
-                'drained_organic_soils(co2)': [0],
+                'drained_organic_soils_(co2)': [drained_organic_soils],
                 'pesticides_manufacturing': [pesticides_manufacturing],
                 'food_transport': [food_transport],
                 'forestland': [forestland],
