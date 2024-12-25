@@ -38,8 +38,8 @@ year = st.number_input("Enter the Year (e.g., 2023):", min_value=1900, max_value
 
 # Input fields for additional features
 savanna_fires = st.number_input("Savanna Fires:", min_value=0.0)
-urban_population = st.number_input("Urban Population:", min_value=0.0)
 forestland = st.number_input("Forestland:", min_value=0.0)
+urban_population = st.number_input("Urban Population:", min_value=0.0)
 average_temperature = st.number_input("Average Temperature (°C):", min_value=-50.0) 
 
 # forest_fires = st.number_input("Forest Fires:", min_value=0.0)
