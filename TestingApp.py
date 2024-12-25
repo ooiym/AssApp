@@ -41,21 +41,21 @@ savanna_fires = st.number_input("Savanna Fires:", min_value=0.0)
 urban_population = st.number_input("Urban Population:", min_value=0.0)
 forestland = st.number_input("Forestland:", min_value=0.0)
 average_temperature = st.number_input("Average Temperature (°C):", min_value=-50.0) 
-'''
-forest_fires = st.number_input("Forest Fires:", min_value=0.0)
-crop_residues = st.number_input("Crop Residues:", min_value=0.0)
-rice_cultivation = st.number_input("Rice Cultivation:", min_value=0.0)
-drained_organic_soils = st.number_input("Drained Organic Soils (CO2):", min_value=0.0)
-pesticides_manufacturing = st.number_input("Pesticides Manufacturing:", min_value=0.0)
-food_transport = st.number_input("Food Transport:", min_value=0.0)
-manure_management = st.number_input("Manure Management:", min_value=0.0)
-fires_in_organic_soils = st.number_input("Fires in Organic Soils:", min_value=0.0)
-fires_in_humid_tropical_forests = st.number_input("Fires in Humid Tropical Forests:", min_value=0.0)
-on_farm_energy_use = st.number_input("On-Farm Energy Use:", min_value=0.0)
-rural_population = st.number_input("Rural Population:", min_value=0.0)
-total_population_male = st.number_input("Total Population - Male:", min_value=0.0)
-total_population_female = st.number_input("Total Population - Female:", min_value=0.0)
-'''
+
+# forest_fires = st.number_input("Forest Fires:", min_value=0.0)
+# crop_residues = st.number_input("Crop Residues:", min_value=0.0)
+# rice_cultivation = st.number_input("Rice Cultivation:", min_value=0.0)
+# drained_organic_soils = st.number_input("Drained Organic Soils (CO2):", min_value=0.0)
+# pesticides_manufacturing = st.number_input("Pesticides Manufacturing:", min_value=0.0)
+# food_transport = st.number_input("Food Transport:", min_value=0.0)
+# manure_management = st.number_input("Manure Management:", min_value=0.0)
+# fires_in_organic_soils = st.number_input("Fires in Organic Soils:", min_value=0.0)
+# fires_in_humid_tropical_forests = st.number_input("Fires in Humid Tropical Forests:", min_value=0.0)
+# on_farm_energy_use = st.number_input("On-Farm Energy Use:", min_value=0.0)
+# rural_population = st.number_input("Rural Population:", min_value=0.0)
+# total_population_male = st.number_input("Total Population - Male:", min_value=0.0)
+# total_population_female = st.number_input("Total Population - Female:", min_value=0.0)
+
 if st.button("Predict"):
     if area and year:
         try:
