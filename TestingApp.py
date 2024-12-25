@@ -66,7 +66,7 @@ if st.button("Predict"):
                 'forest_fires': [forest_fires],
                 'crop_residues': [crop_residues],
                 'rice_cultivation': [rice_cultivation],
-                'drained_organic_soils(co2)': [drained_organic_soils],
+                'drained_organic_soils(co2)' : [drained_organic_soils],
                 'pesticides_manufacturing': [pesticides_manufacturing],
                 'food_transport': [food_transport],
                 'forestland': [forestland],
@@ -90,7 +90,7 @@ if st.button("Predict"):
                 'food_packaging': [0], 
                 'net_forest_conversion': [0], 
                 'manure_left_on_pasture': [0], 
-                'total_population_-male': [total_population_male],
+                'total_population_-_male': [total_population_male],
                 'total_population_-_female': [total_population_female] 
             })
 
