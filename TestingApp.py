@@ -76,7 +76,7 @@ if st.button("Predict"):
                 'on-farm_energy_use': [on_farm_energy_use],
                 'food_household_consumption': [0], 
                 'food_processing': [0], 
-                'on_farm_electricity_use': [0], 
+                'on-farm_electricity_use': [0], 
                 'agrifood_systems_waste_disposal': [0], 
                 'fertilizers_manufacturing': [0], 
                 'total_population_-male': [0], 
