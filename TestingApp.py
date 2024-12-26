@@ -74,15 +74,15 @@ normalized_emission = pd.DataFrame(mean_CO2, columns=['mean_CO2_emission', 'Aver
 normalized_emission['Area'] = normalized_emission.index
 
 #Visualisation Section
-temp2['Area'].replace({'United States of America': 'United States'}, inplace=True)
-temp2['Area'].replace({'United Kingdom of Great Britain and Northern Ireland': 'United Kingdom'}, inplace=True)
-temp2['Area'].replace({'Democratic Republic of the Congo': 'Congo, The Democratic Republic of the'}, inplace=True)
-temp2['Area'].replace({'Bolivia (Plurinational State of)': 'Bolivia, Plurinational State of'}, inplace=True)
-temp2['Area'].replace({'Venezuela (Bolivarian Republic of)': 'Venezuela, Bolivarian Republic of'}, inplace=True)
-temp2['Area'].replace({'United Republic of Tanzania': 'Tanzania, United Republic of'}, inplace=True)
-temp2['Area'].replace({'Iran (Islamic Republic of)': 'Iran, Islamic Republic of'}, inplace=True)
-temp2['Area'].replace({"Democratic People's Republic of Korea": "Korea, Democratic People's Republic of"}, inplace=True)
-temp2['Area'].replace({"Republic of Korea": "Korea, Republic of"}, inplace=True)
+temp2.loc[temp2['Area'] == 'United States of America', 'Area'] = 'United States'
+temp2.loc[temp2['Area'] == 'United Kingdom of Great Britain and Northern Ireland', 'Area'] = 'United Kingdom'
+temp2.loc[temp2['Area'] == 'Democratic Republic of the Congo', 'Area'] = 'Congo, The Democratic Republic of the'
+temp2.loc[temp2['Area'] == 'Bolivia (Plurinational State of)', 'Area'] = 'Bolivia, Plurinational State of'
+temp2.loc[temp2['Area'] == 'Venezuela (Bolivarian Republic of)', 'Area'] = 'Venezuela, Bolivarian Republic of'
+temp2.loc[temp2['Area'] == 'United Republic of Tanzania', 'Area'] = 'Tanzania, United Republic of'
+temp2.loc[temp2['Area'] == 'Iran (Islamic Republic of)', 'Area'] = 'Iran, Islamic Republic of'
+temp2.loc[temp2['Area'] == "Democratic People's Republic of Korea", 'Area'] = "Korea, Democratic People's Republic of"
+temp2.loc[temp2['Area'] == "Republic of Korea", 'Area'] = "Korea, Republic of"
 
 st.header("Visualization")
 # Get ISO alpha codes
