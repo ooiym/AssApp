@@ -34,10 +34,7 @@ if theme == "Light":
         .stTextInput > div > div > input {
             color: #000000;
         }
-        .stButton > button {
-            color: #000000; 
-        }
-        .stSelectbox label, .stNumberInput label {
+        .stSelectbox label, .stNumberInput label, .stButton label {
             color: #000000; 
         }
         
