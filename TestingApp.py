@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import joblib
 from sklearn.preprocessing import StandardScaler, OneHotEncoder, MinMaxScaler
+import plotly.express as px
 
 # Load Models and Preprocessor
 models = {
