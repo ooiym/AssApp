@@ -3,6 +3,7 @@ import pandas as pd
 import joblib
 from sklearn.preprocessing import StandardScaler, OneHotEncoder, MinMaxScaler
 import plotly.express as px
+import pycountry
 
 # Load Models and Preprocessor
 models = {
