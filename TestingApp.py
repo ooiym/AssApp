@@ -45,26 +45,44 @@ body {{
 # Visualization Section
 if data is not None and viz_choice != "None":
     st.header("Visualization")
-    if viz_choice == "Global Map":
-        fig = px.choropleth(
-            data,
-            locations="Area",
-            locationmode="country names",
-            color="Total CO2 Emission",
-            hover_name="Area",
-            animation_frame="Year",
-            title="Global CO2 Emissions Over Time",
-        )
-        st.plotly_chart(fig)
-    elif viz_choice == "Line Graph":
-        fig = px.line(
-            data,
-            x="Year",
-            y=["Total CO2 Emission", "Average Temperature (°C)"],
-            color="Area",
-            title="Emission and Temperature Trends",
-        )
-        st.plotly_chart(fig)
+    
+    # Validate dataset columns
+    required_columns = ["Area", "Total CO2 Emission", "Year"]
+    if all(col in data.columns for col in required_columns):
+        if viz_choice == "Global Map":
+            # Clean dataset: drop rows with missing values in key columns
+            map_data = data.dropna(subset=["Area", "Total CO2 Emission", "Year"])
+            
+            if map_data.empty:
+                st.warning("No data available for the selected visualization after cleaning.")
+            else:
+                fig = px.choropleth(
+                    map_data,
+                    locations="Area",
+                    locationmode="country names",
+                    color="Total CO2 Emission",
+                    hover_name="Area",
+                    animation_frame="Year",
+                    title="Global CO2 Emissions Over Time",
+                )
+                st.plotly_chart(fig)
+        elif viz_choice == "Line Graph":
+            # Clean dataset: drop rows with missing values
+            line_data = data.dropna(subset=["Year", "Total CO2 Emission", "Average Temperature (°C)"])
+            
+            if line_data.empty:
+                st.warning("No data available for the selected visualization after cleaning.")
+            else:
+                fig = px.line(
+                    line_data,
+                    x="Year",
+                    y=["Total CO2 Emission", "Average Temperature (°C)"],
+                    color="Area",
+                    title="Emission and Temperature Trends",
+                )
+                st.plotly_chart(fig)
+    else:
+        st.error("Dataset does not contain required columns: Area, Total CO2 Emission, or Year.")
 
 # Model Selection and Input Section
 st.header("Prediction")
