@@ -38,7 +38,7 @@ if theme == "Light":
             color: #000000; 
         }
         .stButton > button > div > p {
-            color: #000000; 
+            background-color: red; 
         }
         .stSidebar{
             background-color: #BCCCDC;
