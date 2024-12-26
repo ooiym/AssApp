@@ -27,7 +27,7 @@ if theme == "Light":
     st.markdown(
         """
         <style>
-        .stApp, .stSidebar{
+        .stApp{
             background-color: #f0f0f0;
             color: #000000;
         }
@@ -37,8 +37,11 @@ if theme == "Light":
         .stSelectbox label, .stNumberInput label{
             color: #000000; 
         }
-        div.stButton > p {
+        .stButton > p {
             color: #000000; 
+        }
+        .stSidebar{
+            color: #EFF3EA;
         }
         
        </style>
