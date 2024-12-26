@@ -58,6 +58,63 @@ This app predicts the **Total CO2 Emission** based on the Area and Year input.
 Please enter the values below to get the prediction.
 """)
 
+# --- Global Map Visualization ---
+st.header("Global CO2 Emissions and Temperature")
+
+# Create the dataset (assuming you have 'temp2' DataFrame available)
+CO2_df = temp2[['Area', 'total_emission', 'Average Temperature °C']]
+mean_CO2_df = CO2_df.groupby('Area').mean()
+
+# Normalize emissions using MinMaxScaler
+scaler = MinMaxScaler()
+mean_CO2 = scaler.fit_transform(mean_CO2_df)
+normalized_emission = pd.DataFrame(mean_CO2, columns=['mean_CO2_emission', 'Average Temperature °C'], index=mean_CO2_df.index)
+normalized_emission['Area'] = normalized_emission.index
+
+#Visualisation
+st.header("Visualization")
+# Get ISO alpha codes
+def get_iso_alpha(country_name):
+    try:
+        country = pycountry.countries.get(name=country_name)
+        iso_alpha = country.alpha_3
+        return iso_alpha
+    except:
+        return None
+
+normalized_emission['iso_alpha'] = normalized_emission['Area'].apply(get_iso_alpha)
+normalized_emission['Average_temperature'] = normalized_emission['Average Temperature °C'].fillna(0)
+
+# Create the choropleth map
+fig = px.choropleth(
+    normalized_emission,
+    locations="iso_alpha",
+    color="Average_temperature",
+    hover_name="Area",
+    color_continuous_scale=["blue", "green", "yellow", "orange", "red"]
+)
+
+# Create the scatter_geo plot
+fig2 = px.scatter_geo(
+    normalized_emission,
+    locations="iso_alpha",
+    size="mean_CO2_emission"
+)
+
+# Add scatter_geo data to the choropleth map
+fig.add_trace(fig2.data[0])
+
+# Update layout
+fig.update_layout(
+    title={'text': "Mean Agrifood CO2 emissions and mean temperature increase by country", 'x': 0.5, 'xanchor': 'center'},
+    autosize=False,
+    height=600,
+    width=1200
+)
+
+# Display the map in Streamlit
+st.plotly_chart(fig)
+
 # Model Selection (get model names from the dictionary keys)
 model_choice = st.selectbox("Select Model:", ["All Models"] + list(models.keys()))
 
