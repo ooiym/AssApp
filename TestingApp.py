@@ -28,7 +28,7 @@ if theme == "Light":
         """
         <style>
         .stApp{
-            c-color: #f0f0f0;
+            background-color: #f0f0f0;
             color: #000000;
         }
         .stTextInput > div > div > input {
