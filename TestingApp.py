@@ -28,7 +28,7 @@ if theme == "Light":
         """
         <style>
         .stApp{
-            background-color: #f0f0f0;
+            c-color: #f0f0f0;
             color: #000000;
         }
         .stTextInput > div > div > input {
@@ -38,10 +38,10 @@ if theme == "Light":
             color: #000000; 
         }
         .stButton > p {
-            color: #000000; 
+            background-color: #000000; 
         }
         .stSidebar{
-            color: #EFF3EA;
+            background-color: #EFF3EA;
         }
         
        </style>
