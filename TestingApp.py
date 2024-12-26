@@ -37,7 +37,7 @@ if theme == "Light":
         .stSelectbox label, .stNumberInput label{
             color: #000000; 
         }
-        .stButton > p {
+        .stButton > button > div > p {
             background-color: #000000; 
         }
         .stSidebar{
