@@ -75,7 +75,7 @@ normalized_emission = pd.DataFrame(mean_CO2, columns=['mean_CO2_emission', 'Aver
 normalized_emission['Area'] = normalized_emission.index
 
 #Visualisation Section
-temp2['Area'] = temp2['Area'].replace({
+temp2['Area'].replace({
     'United States of America': 'United States',
     'United Kingdom of Great Britain and Northern Ireland': 'United Kingdom',
     'Democratic Republic of the Congo': 'Congo, The Democratic Republic of the',
