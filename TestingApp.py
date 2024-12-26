@@ -41,7 +41,7 @@ if theme == "Light":
             background-color: #000000; 
         }
         .stSidebar{
-            background-color: #EFF3EA;
+            background-color: #BCCCDC;
         }
         
        </style>
