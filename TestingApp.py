@@ -23,7 +23,6 @@ except FileNotFoundError:
 # --- Theme Selection ---
 st.sidebar.subheader("Theme")
 theme = st.sidebar.selectbox("Select Theme", ["Light", "Dark"])
-
 if theme == "Light":
     st.markdown(
         """
@@ -35,8 +34,11 @@ if theme == "Light":
         .stTextInput > div > div > input {
             color: #000000;
         }
-        /* Style button text */
         .stButton > button {
+            color: #000000; 
+        }
+        /* Style selectbox labels and other text */
+        .stSelectbox label, .stNumberInput label {
             color: #000000; 
         }
         </style>
