@@ -12,6 +12,7 @@ models = {
 }
 preprocessor = joblib.load('preprocessor.pkl')
 scaler = joblib.load('scaler.pkl')
+temp2 = pd.read_csv("Agrofood_co2_emission.csv")
 # Load areas from text file
 try:
     with open('areas.txt', 'r') as file:
@@ -71,7 +72,17 @@ mean_CO2 = scaler.fit_transform(mean_CO2_df)
 normalized_emission = pd.DataFrame(mean_CO2, columns=['mean_CO2_emission', 'Average Temperature °C'], index=mean_CO2_df.index)
 normalized_emission['Area'] = normalized_emission.index
 
-#Visualisation
+#Visualisation Section
+temp2['Area'].replace({'United States of America': 'United States'}, inplace=True)
+temp2['Area'].replace({'United Kingdom of Great Britain and Northern Ireland': 'United Kingdom'}, inplace=True)
+temp2['Area'].replace({'Democratic Republic of the Congo': 'Congo, The Democratic Republic of the'}, inplace=True)
+temp2['Area'].replace({'Bolivia (Plurinational State of)': 'Bolivia, Plurinational State of'}, inplace=True)
+temp2['Area'].replace({'Venezuela (Bolivarian Republic of)': 'Venezuela, Bolivarian Republic of'}, inplace=True)
+temp2['Area'].replace({'United Republic of Tanzania': 'Tanzania, United Republic of'}, inplace=True)
+temp2['Area'].replace({'Iran (Islamic Republic of)': 'Iran, Islamic Republic of'}, inplace=True)
+temp2['Area'].replace({"Democratic People's Republic of Korea": "Korea, Democratic People's Republic of"}, inplace=True)
+temp2['Area'].replace({"Republic of Korea": "Korea, Republic of"}, inplace=True)
+
 st.header("Visualization")
 # Get ISO alpha codes
 def get_iso_alpha(country_name):
