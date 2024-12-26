@@ -34,16 +34,29 @@ if theme == "Light":
         .stTextInput > div > div > input {
             color: #000000;
         }
-        .stButton{
+        .stButton > button {
             color: #000000; 
         }
-        /* Style selectbox labels and other text */
         .stSelectbox label, .stNumberInput label {
             color: #000000; 
         }
-        </style>
-        """,
-        unsafe_allow_html=True,
+        /* Style sidebar background */
+        .css-1v3fvcr {
+            background-color: #f0f0f0; 
+        }
+
+        /* Added to style sidebar header text color */
+        .css-16idsys h2 {
+             color: #000000; 
+        }
+
+        /* Added to style sidebar selectbox text color */
+        .css-26l3qy-menu {
+           color: #000000 !important;
+        }
+       </style>
+       """,
+       unsafe_allow_html=True,
     )
 
 # Title of the app
