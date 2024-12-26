@@ -24,15 +24,19 @@ except FileNotFoundError:
 st.sidebar.subheader("Theme")
 theme = st.sidebar.selectbox("Select Theme", ["Light", "Dark"])
 
-if theme == "Light":  # Apply light theme only when selected
+if theme == "Light":
     st.markdown(
         """
         <style>
         .stApp {
-            background-color: #f0f0f0;  
-            color: #000000; 
+            background-color: #f0f0f0;
+            color: #000000;
         }
-        .stTextInput > div > div > input { 
+        .stTextInput > div > div > input {
+            color: #000000;
+        }
+        /* Style button text */
+        .stButton > button {
             color: #000000; 
         }
         </style>
